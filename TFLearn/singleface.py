@@ -2,10 +2,10 @@ import cv2
 import sys
 import numpy as np
 from model import EMR
-
+from pynput.keyboard import Key, Controller
 # prevents opencl usage and unnecessary logging messages
 cv2.ocl.setUseOpenCL(False)
-
+keyboard = Controller()
 EMOTIONS = ['angry', 'disgusted', 'fearful', 'happy', 'sad', 'surprised', 'neutral']
 
 # initialize the cascade
@@ -57,7 +57,7 @@ feelings_faces = []
 # append the list with the emoji images
 for index, emotion in enumerate(EMOTIONS):
     feelings_faces.append(cv2.imread('./emojis/' + emotion + '.png', -1))
-
+iC = 0
 while True:
     # Again find haar cascade to draw bounding box around face
     ret, frame = cap.read()
@@ -78,6 +78,15 @@ while True:
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(frame,EMOTIONS[maxindex],(10,360), font, 2,(255,255,255),2,cv2.LINE_AA) 
         face_image = feelings_faces[maxindex]
+        if iC == 6:
+            if maxindex == 0: # if angry
+                keyboard.press(Key.left)
+                keyboard.release(Key.left)
+            if maxindex == 3: # if happy
+                keyboard.press(Key.right)
+                keyboard.release(Key.right)
+            iC = 0
+        iC = iC + 1
 
         for c in range(0, 3):
             # The shape of face_image is (x,y,4). The fourth channel is 0 or 1. In most cases it is 0, so, we assign the roi to the emoji.
