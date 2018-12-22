@@ -1,3 +1,3 @@
 # forked from atulapra/Emotion-detection
 
-![Emotion](https://im2.ezgif.com/tmp/ezgif-2-64a4ce986fc6.gif)
+![Emotion](examples/ezgif-2-64a4ce986fc6.gif)
